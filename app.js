@@ -83,14 +83,14 @@ app.get('/profile', function(req, res) {
         $template("#user-name").html(req.session.email);
 
         // insert the left column from a different file (or could be a DB or ad network, etc.)
-        let left = fs.readFileSync('./private/html/newsfeed.html', "utf8");
+        let left = fs.readFileSync('./private/template/newsfeed.html', "utf8");
         let leftDOM = new JSDOM(left);
         let $left = require("jquery")(leftDOM.window);
         // Replace!
         $template("#placeholder1").replaceWith($left("#newsfeed"));
 
         // insert the left column from a different file (or could be a DB or ad network, etc.)
-        let middle = fs.readFileSync('./private/html/scoreboard.html', "utf8");
+        let middle = fs.readFileSync('./private/template/scoreboard.html', "utf8");
         let middleDOM = new JSDOM(middle);
         let $middle = require("jquery")(middleDOM.window);
         // Replace!
