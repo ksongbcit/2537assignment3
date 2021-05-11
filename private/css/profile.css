@@ -17,10 +17,86 @@ h1 {
   grid-template-columns: 2.5% 45% 5% 45% 2.5%;
 }
 
-#navbar {
-  top: 0;
+.navbar {
   grid-row: 1;
   grid-column: 1 / span 5;
+  display: grid;
+  grid-template-columns: 30% 70%;
+  grid-template-rows: 40% 20% 40%;
+  background-color: rgb(170, 187, 142);
+  border-radius: 15px;
+  padding: 10px;
+  margin: 2.5%;
+}
+
+.navbar #user-name {
+  font-size: 0.8em;
+  grid-column: 1 / span 1;
+  grid-row: 2 / span 1;
+  padding-left: 20px;
+}
+
+.navbar nav {
+  display: table;
+  grid-column: 2 / span 1;
+  grid-row: 2 / span 1;
+  padding-bottom: 20px;
+}
+
+.navbar ul {
+  display: table-row;
+}
+
+.navbar li {
+  display: table-cell;
+  text-align: center;
+}
+
+.badge_text {
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: white;
+  background-color: darkolivegreen;
+  padding: 0.35em 0.4em;
+  border-radius: 50%;
+  display: inline-block;
+  transform: translateY(-80%);
+}
+
+.navbar a {
+  text-decoration: none;
+  color: blanchedalmond;
+}
+
+input[type='submit'] {
+  font-size: 1.2em;
+  background-color: transparent;
+  border: none;
+  color: blanchedalmond;
+  transform: translate3D(0, 0, 0);
+  transition: color 0.3s, background-color 0.3s, transform 0.15s;
+  cursor: pointer;
+}
+
+input[type='submit']:hover {
+  color: white;
+  font-size: 1.2em;
+  background-color: darkolivegreen;
+  outline: none;
+}
+
+input[type='submit']:focus {
+  color: white;
+  font-size: 1.2em;
+  outline: none;
+}
+
+input[type='submit']:active {
+  color: white;
+  font-size: 1.2em;
+  background-color: rgb(143, 165, 106);
+  transform: translate3D(0, 5px, 0);
+  outline: none;
 }
 
 #newsfeed {
