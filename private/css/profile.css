@@ -8,6 +8,10 @@ html {
     background-color: rgb(255, 248, 238);
 }
 
+#navbar {
+  top: 0;
+}
+
 #scoreboard table {
   background-color: blanchedalmond;
   border: 0;
