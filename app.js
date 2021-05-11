@@ -19,20 +19,14 @@ app.use(session({
 );
 
 app.get('/', function (req, res) {
-    let doc = fs.readFileSync('./assets/html/index.html', "utf8");
+    let doc = fs.readFileSync('html/index.html', "utf8");
 
-    // let's make a minor change to the page before sending it off ...
     let dom = new JSDOM(doc);
     let $ = require("jquery")(dom.window);
 
 
     let dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     let d = new Date().toLocaleDateString("en-US", dateOptions);
-    // where we'll slip in an audio player into the footer's left :)
-    $("#footer").append('<div id="left"></div>');
-    $("#footer").append("<p id='right'>Copyright ©2021, (YOUR NAME HERE), Inc. Updated: " + d + "</p>");
-
-
 
     initDB();
 
@@ -47,7 +41,7 @@ app.get('/', function (req, res) {
 async function initDB() {
 
     const mysql = require('mysql2/promise');
-    // Let's build the DB if it doesn't exist
+
     const connection = await mysql.createConnection({
       host: 'localhost',
       user: 'root',
@@ -55,16 +49,14 @@ async function initDB() {
       multipleStatements: true
     });
 
-    const createDBAndTables = `CREATE DATABASE IF NOT EXISTS test;
-        use test;
+    const createDBAndTables = `CREATE DATABASE IF NOT EXISTS accounts;
+        use accounts;
         CREATE TABLE IF NOT EXISTS user (
         ID int NOT NULL AUTO_INCREMENT,
         email varchar(30),
         password varchar(30),
         PRIMARY KEY (ID));`;
 
-    // Used to wait for a promise to finish ... IOW we are avoiding asynchronous behavior
-    // Why? See below!
     await connection.query(createDBAndTables);
     let results = await connection.query("SELECT COUNT(*) FROM user");
     let count = results[0][0]['COUNT(*)'];
@@ -75,59 +67,6 @@ async function initDB() {
     }
     connection.end();
 }
-
-
-//////////////////////////////////////////////////////////////////////
-// DOESN'T WORK AS WE WANT!!!
-//////////////////////////////////////////////////////////////////////
-function initDBAsyncProblem() {
-
-
-    // Let's build the DB if it doesn't exist
-    const connection = mysql.createConnection({
-      host: 'localhost',
-      user: 'root',
-      password: '',
-      multipleStatements: true
-    });
-
-    const createDBAndTables = `CREATE DATABASE IF NOT EXISTS test;
-        use test;
-        CREATE TABLE IF NOT EXISTS user (
-        ID int NOT NULL AUTO_INCREMENT,
-        email varchar(30),
-        password varchar(30),
-        PRIMARY KEY (ID));`;
-
-
-    connection.connect();
-    connection.query(createDBAndTables, function (error, results, fields) {
-        if (error) {
-            throw error;
-        }
-
-    });
-    let count = 0;
-    connection.query("SELECT COUNT(*) FROM user", function (error, results, fields) {
-        if (error) {
-            throw error;
-        }
-        count = results[0]['COUNT(*)'];
-        console.log("count in the callback is", count);
-    });
-    console.log("count out of the callback is", count);
-    if(count == 0) {
-
-        connection.query("INSERT INTO user (email, password) values ('arron@bcit.ca', 'admin')", function (error, results, fields) {
-            if (error) {
-                throw error;
-            }
-        });
-
-    }
-    connection.end();
-}
-
 
 
 app.get('/profile', function(req, res) {
