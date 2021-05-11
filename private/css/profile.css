@@ -8,8 +8,43 @@ html {
     background-color: rgb(255, 248, 238);
 }
 
+h1 {
+  text-align: center;
+}
+
+#content {
+  display: grid;
+  grid-template-columns: 2.5% 45% 5% 45% 2.5%;
+}
+
 #navbar {
   top: 0;
+  grid-row: 1;
+  grid-column: 1 / span 5;
+}
+
+#newsfeed {
+  grid-row: 2;
+  grid-column: 2;
+  background-color: rgb(170, 187, 142);
+  border-radius: 15px;
+  padding: 10px;
+}
+
+.news {
+  background-color: darkolivegreen;
+  color: rgb(255, 245, 231);
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+#scoreboard {
+  grid-row: 2;
+  grid-column: 4;
+  background-color: rgb(170, 187, 142);
+  border-radius: 15px;
+  padding: 10px;
 }
 
 #scoreboard table {
