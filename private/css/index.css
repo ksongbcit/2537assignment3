@@ -7,3 +7,38 @@ html {
     padding: 0;
     background-color: rgb(255, 248, 238);
 }
+
+table {
+    background-color: blanchedalmond;
+    border: 0;
+    padding: 0;
+    border-collapse: collapse;
+    margin: 0 auto;
+}
+
+th {
+    background-color: darkolivegreen;
+    color: rgb(255, 245, 231);
+    padding: 15px;
+}
+
+tr {
+    border: 0;
+}
+
+td {
+    border: 0;
+    padding: 10px;
+    margin: 0;
+}
+
+tr:nth-child(odd) {
+    background-color: rgb(143, 165, 106);
+}
+
+#login-container {
+    padding: 20px;
+    width: 20vw;
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
