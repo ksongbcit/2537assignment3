@@ -19,7 +19,7 @@ app.use(session({
 );
 
 app.get('/', function (req, res) {
-    let doc = fs.readFileSync('./html/index.html', "utf8");
+    let doc = fs.readFileSync('./private/html/index.html', "utf8");
 
     let dom = new JSDOM(doc);
     let $ = require("jquery")(dom.window);
