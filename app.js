@@ -11,8 +11,8 @@ app.use('/img', express.static('private/imgs'));
 app.use('/html', express.static('private/html'));
 
 app.use(session({
-        secret:'extra text that no one will guess',
-        name:'wazaSessionID',
+        secret:'super secret password',
+        name:'50Greener',
         resave: false,
         saveUninitialized: true 
     })
@@ -30,8 +30,8 @@ app.get('/', function (req, res) {
 
     initDB();
 
-    res.set('Server', 'Wazubi Engine');
-    res.set('X-Powered-By', 'Wazubi');
+    res.set('Server', '50Greener Engine');
+    res.set('X-Powered-By', '50Greener');
     res.send(dom.serialize());
 
 });
@@ -75,30 +75,30 @@ app.get('/profile', function(req, res) {
     if(req.session.loggedIn) {
 
         // DIY templating with DOM, this is only the husk of the page
-        let templateFile = fs.readFileSync('./private/html/profile.html', "utf8");
-        let templateDOM = new JSDOM(templateFile);
-        let $template = require("jquery")(templateDOM.window);
+        let profileFile = fs.readFileSync('./private/html/profile.html', "utf8");
+        let profileDOM = new JSDOM(profileFile);
+        let $profile = require("jquery")(profileDOM.window);
 
         // put the name in
-        $template("#user-name").html(req.session.email);
+        $profile("#user-name").html(req.session.email);
 
         // insert the left column from a different file (or could be a DB or ad network, etc.)
-        let left = fs.readFileSync('./private/template/newsfeed.html', "utf8");
-        let leftDOM = new JSDOM(left);
-        let $left = require("jquery")(leftDOM.window);
+        let newsfeed = fs.readFileSync('./private/template/newsfeed.html', "utf8");
+        let newsfeedDOM = new JSDOM(newsfeed);
+        let $newsfeed = require("jquery")(newsfeedDOM.window);
         // Replace!
-        $template("#placeholder1").replaceWith($left("#newsfeed"));
+        $profile("#placeholder1").replaceWith($newsfeed("#newsfeed"));
 
         // insert the left column from a different file (or could be a DB or ad network, etc.)
-        let middle = fs.readFileSync('./private/template/scoreboard.html', "utf8");
-        let middleDOM = new JSDOM(middle);
-        let $middle = require("jquery")(middleDOM.window);
+        let scoreboard = fs.readFileSync('./private/template/scoreboard.html', "utf8");
+        let scoreboardDOM = new JSDOM(scoreboard);
+        let $scoreboard = require("jquery")(scoreboardDOM.window);
         // Replace!
-        $template("#placeholder2").replaceWith($middle("#scoreboard"));
+        $profile("#placeholder2").replaceWith($scoreboard("#scoreboard"));
 
         res.set('Server', 'Wazubi Engine');
         res.set('X-Powered-By', 'Wazubi');
-        res.send(templateDOM.serialize());
+        res.send(profileDOM.serialize());
 
     } else {
         // not logged in - no session!
