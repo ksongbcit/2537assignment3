@@ -8,6 +8,8 @@ html {
     background-color: rgb(255, 248, 238);
 }
 
+
+
 table {
     background-color: blanchedalmond;
     border: 0;
@@ -37,6 +39,7 @@ tr:nth-child(odd) {
 }
 
 #login-container {
+    text-align: center;
     padding: 20px;
     width: 20vw;
     margin: 0 auto;
