@@ -37,8 +37,6 @@ app.get('/', function (req, res) {
 
 });
 
-
-// async together with await
 async function initDB() {
 
     const mysql = require('mysql2/promise');
@@ -72,29 +70,24 @@ async function initDB() {
 
 app.get('/profile', function(req, res) {
 
-    // check for a session first!
     if(req.session.loggedIn) {
 
-        // DIY templating with DOM, this is only the husk of the page
         let profileFile = fs.readFileSync('./private/html/profile.html', "utf8");
         let profileDOM = new JSDOM(profileFile);
         let $profile = require("jquery")(profileDOM.window);
 
-        // put the name in
         $profile("#user-name").html(req.session.email);
 
-        // insert the left column from a different file (or could be a DB or ad network, etc.)
         let newsfeed = fs.readFileSync('./private/template/newsfeed.html', "utf8");
         let newsfeedDOM = new JSDOM(newsfeed);
         let $newsfeed = require("jquery")(newsfeedDOM.window);
-        // Replace!
+
         $profile("#placeholder1").replaceWith($newsfeed("#newsfeed"));
 
-        // insert the left column from a different file (or could be a DB or ad network, etc.)
         let scoreboard = fs.readFileSync('./private/template/scoreboard.html', "utf8");
         let scoreboardDOM = new JSDOM(scoreboard);
         let $scoreboard = require("jquery")(scoreboardDOM.window);
-        // Replace!
+
         $profile("#placeholder2").replaceWith($scoreboard("#scoreboard"));
 
         res.set('Server', 'Wazubi Engine');
@@ -102,7 +95,6 @@ app.get('/profile', function(req, res) {
         res.send(profileDOM.serialize());
 
     } else {
-        // not logged in - no session!
         res.redirect('/');
     }
 
@@ -114,33 +106,18 @@ app.get('/profile', function(req, res) {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 
-
-// Notice that this is a 'POST'
 app.post('/authenticate', function(req, res) {
     res.setHeader('Content-Type', 'application/json');
 
-
-//    console.log("Email", req.body.email);
-//    console.log("Password", req.body.password);
-
-
     let results = authenticate(req.body.email, req.body.password,
         function(rows) {
-            //console.log(rows.password);
             if(rows == null) {
-                // not found
                 res.send({ status: "fail", msg: "User account not found." });
             } else {
-                // authenticate the user, create a session
                 req.session.loggedIn = true;
                 req.session.email = rows.email;
                 req.session.save(function(err) {
-                    // session saved
                 })
-                // this will only work with non-AJAX calls
-                //res.redirect("/profile");
-                // have to send a message to the browser and let front-end complete
-                // the action
                 res.send({ status: "success", msg: "Logged in." });
             }
     });
@@ -165,10 +142,8 @@ function authenticate(email, pwd, callback) {
         }
 
         if(results.length > 0) {
-            // email and password found
             return callback(results[0]);
         } else {
-            // user not found
             return callback(null);
         }
 
